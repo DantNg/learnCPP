@@ -1,9 +1,7 @@
-﻿#include <iostream>
-using namespace std;
+﻿#include "func.h"
+#include "func.h" 
 
 int main() {
-    int a = 5 + 3; // 5 + 3 là một rvalue
-    int b = a * 2; // a * 2 là một rvalue
-
+    displayMessage(); //lỗi function 'void displayMessage(void)' already has a body	learnCPP	
     return 0;
 }
