@@ -1,12 +1,11 @@
-
-#include<string>
-#include<iostream>
-#include "SinhVien.h"
-#include "Card.h"
-#include<vector>
-using namespace std;
 #ifndef MANAGECARD_H
 #define MANAGECARD_H
+#include<string>
+#include<iostream>
+#include<vector>
+#include "../Model/Card.h"
+#include "../Model/Student.h"
+using namespace std;
 class ManageCard{
     public:
         vector<Card> listCard;
@@ -17,6 +16,6 @@ class ManageCard{
         void addCard(Card c);
         void show();
         void deleteCard();
-        Card createCard();
+        void createCard();
 };
 #endif

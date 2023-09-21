@@ -1,0 +1,18 @@
+CC = gcc
+CFLAGS = -Wall
+all: Main.o ManageCard.o Card.o Student.o Application.o
+    $(CC) $(CFLAGS) -o my_program Main.o functions.o
+
+Main.o: Main.cpp 
+    $(CC) $(CFLAGS) -g Main.cpp
+
+ManageCard.o: ManageCard.cpp 
+    $(CC) $(CFLAGS) -g ManageCard.cpp
+Card.o: Card.cpp
+	$(CC) $(CFLAGS) -g Card.cpp
+Student.o: Student.cpp
+	$(CC) $(CFLAGS) -g Student.cpp
+Application.o: Application.cpp
+	$(CC) $(CFLAGS) -g Application.cpp
+clean:
+    rm -f *.o my_program
