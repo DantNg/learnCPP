@@ -18,7 +18,10 @@ public:
         std::cout << "Certificate Rank: " << certRank << std::endl;
         std::cout << "Certificate Date: " << certDate << std::endl;
     }
-
+    int GetCertificateID() const { return certID; }
+    std::string GetCertificateName() const { return certName; }
+    std::string GetCertificateRank() const { return certRank; }
+    std::string GetCertificateDate() const { return certDate; }
 private:
     int certID;
     std::string certName;

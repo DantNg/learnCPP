@@ -9,6 +9,12 @@
 class EmployeeManagement
 {
 public:
+enum Employee_Type{
+    EXPERIENCE,
+    FRESHER,
+    INTERN
+    };
+
     EmployeeManagement()
     {
         std::cout << "Employee Management created" << std::endl;
@@ -33,17 +39,17 @@ public:
             if (emp->getID() == id && emp->getEmpType() == newInfo->getEmpType())
             {
                 std::cout<<"Modified employee!"<<std::endl;
-                switch (emp->getEmpType())
+                switch (static_cast<Employee_Type>(emp->getEmpType()))
                 {
-                case 0:
+                case EXPERIENCE:
                     *dynamic_cast<Experience *>(emp) = *dynamic_cast<Experience *>(newInfo);
                     break;
 
-                case 1:
+                case FRESHER:
                     *dynamic_cast<Fresher *>(emp) = *dynamic_cast<Fresher *>(newInfo);
                     break;
 
-                case 2:
+                case INTERN:
                     *dynamic_cast<Intern *>(emp) = *dynamic_cast<Intern *>(newInfo);
                     break;
                 default:
@@ -82,31 +88,31 @@ public:
     }
 
     void ShowAllInterns() {
-        cout << "Intern Employees:" << endl;
+        std::cout << "Intern Employees:" << std::endl;
         for (const Employee* emp : employees) {
-            if (emp->GetEmployeeType() == 2) {
+            if (emp->getEmpType() == 2) {
                 emp->ShowInfo();
-                cout << endl;
+                std::cout << std::endl;
             }
         }
     }
 
     void ShowAllExperiences() {
-        cout << "Experience Employees:" << endl;
+        std::cout << "Experience Employees:" << std::endl;
         for (const Employee* emp : employees) {
-            if (emp->GetEmployeeType() == 0) {
+            if (emp->getEmpType() == 0) {
                 emp->ShowInfo();
-                cout << endl;
+                std::cout << std::endl;
             }
         }
     }
 
     void ShowAllFreshers() {
-        cout << "Fresher Employees:" << endl;
+        std::cout << "Fresher Employees:" << std::endl;
         for (const Employee* emp : employees) {
-            if (emp->GetEmployeeType() == 1) {
+            if (emp->getEmpType() == 1) {
                 emp->ShowInfo();
-                cout << endl;
+                std::cout << std::endl;
             }
         }
     }
