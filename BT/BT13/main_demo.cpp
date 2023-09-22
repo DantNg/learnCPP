@@ -2,7 +2,6 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
-#include <typeinfo>
 class Certificate
 {
 public:
@@ -136,42 +135,6 @@ private:
     std::string universityName;
 };
 
-class BirthDayException : public std::exception
-{
-public:
-    const char *what() const noexcept override
-    {
-        return "Invalid Date of Birth";
-    }
-};
-
-class PhoneException : public std::exception
-{
-public:
-    const char *what() const noexcept override
-    {
-        return "Invalid Phone Number";
-    }
-};
-
-class EmailException : public std::exception
-{
-public:
-    const char *what() const noexcept override
-    {
-        return "Invalid Email Address";
-    }
-};
-
-class FullNameException : public std::exception
-{
-public:
-    const char *what() const noexcept override
-    {
-        return "Invalid Full Name";
-    }
-};
-
 class EmployeeManagement
 {
 public:
@@ -236,7 +199,8 @@ public:
             }
         }
     }
-
+   
+    
     void ShowAllEmployees() const
     {
         for (const Employee *emp : employees)
@@ -275,7 +239,7 @@ int main()
     // Sửa thông tin nhân viên
     Experience newExp(1, "John Doe (Updated)", "2010-01-15", "123-456-7890", "john.doe@email.com", 6);
     empManager.EditEmployee(1, &newExp);
-    empManager.EditEmployee(2, &newExp); //cố tính thay đổi 1 nhân viên fresher bằng 1 nv experience
+    // empManager.EditEmployee(2, &newExp); //cố tính thay đổi 1 nhân viên fresher bằng 1 nv experience
 
     // Hiển thị lại danh sách sau khi sửa
     std::cout << "Updated Employee List:" << std::endl;
