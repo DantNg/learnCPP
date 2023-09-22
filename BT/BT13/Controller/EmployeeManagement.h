@@ -87,20 +87,11 @@ enum Employee_Type{
         }
     }
 
-    void ShowAllInterns() {
-        std::cout << "Intern Employees:" << std::endl;
-        for (const Employee* emp : employees) {
-            if (emp->getEmpType() == 2) {
-                emp->ShowInfo();
-                std::cout << std::endl;
-            }
-        }
-    }
 
     void ShowAllExperiences() {
         std::cout << "Experience Employees:" << std::endl;
         for (const Employee* emp : employees) {
-            if (emp->getEmpType() == 0) {
+            if (static_cast<Employee_Type>(emp->getEmpType()) == EXPERIENCE) {
                 emp->ShowInfo();
                 std::cout << std::endl;
             }
@@ -110,7 +101,16 @@ enum Employee_Type{
     void ShowAllFreshers() {
         std::cout << "Fresher Employees:" << std::endl;
         for (const Employee* emp : employees) {
-            if (emp->getEmpType() == 1) {
+            if (static_cast<Employee_Type>(emp->getEmpType()) == FRESHER) {
+                emp->ShowInfo();
+                std::cout << std::endl;
+            }
+        }
+    }
+    void ShowAllInterns() {
+        std::cout << "Intern Employees:" << std::endl;
+        for (const Employee* emp : employees) {
+            if (static_cast<Employee_Type>(emp->getEmpType()) == INTERN) {
                 emp->ShowInfo();
                 std::cout << std::endl;
             }

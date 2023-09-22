@@ -8,7 +8,7 @@ class Employee
 {
 public:
     Employee(){
-        totalEmployees++;
+        //totalEmployees++;
     };
     Employee(int id, const std::string &name, const std::string &dob, const std::string &phone, const std::string &email, int type)
         : empID(id), fullName(name), birthDay(dob), phone(phone), email(email), empType(type), empCount(1) {

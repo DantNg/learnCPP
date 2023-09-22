@@ -24,13 +24,111 @@ public:
     };
     Application();
     void Run();
+    void AddEmployee();
+    void ModifyEmployee();
+    void DeleteEmployee();
+    void ShowAllEmployees();
 
 private:
     EmployeeManagement empManager;
 };
 
 Application::Application() {}
+void Application::AddEmployee()
+{
+    int employeeType;
+    cout << "Select staff type (1 - Experience, 2 - Fresher, 3 - Intern): ";
+    cin >> employeeType;
+    switch (static_cast<EmployeeTypeChoice>(employeeType))
+    {
+    case EXPERIENCE:
+    {
+        Employee *expEmployee = new Experience(1, "John Doe", "1990-01-15", "123-456-7890", "john.doe@email.com", 5);
+        cout << "Enter employee id : \n";
+        int id;
+        cin >> id;
+        expEmployee->SetEmployeesID(id);
+        cout << "Enter employee name : \n";
+        string name;
+        cin >> name;
+        expEmployee->SetFullName(name);
+        cout << "Enter employee birth date : \n";
+        string birthDate;
+        cin >> birthDate;
+        expEmployee->SetBirthDate(birthDate);
+        cout << "Enter employee phone : \n";
+        string phone;
+        cin >> phone;
+        expEmployee->SetPhone(phone);
+        cout << "Enter employee email : \n";
+        string email;
+        cin >> email;
+        expEmployee->SetEmail(email);
+        cout << "Enter employee experience : \n";
+        int experience;
+        cin >> experience;
+        dynamic_cast<Experience *>(expEmployee)->SetExpYears(experience);
 
+        empManager.AddEmployee(expEmployee);
+    }
+    break;
+    case FRESHER:
+    {
+        Employee *fresherEmployee = new Fresher(2, "Alice Smith", "1995-03-20", "987-654-3210", "alice.smith@email.com", "2022-06-01", "Honors", "University A");
+        empManager.AddEmployee(fresherEmployee);
+    }
+    break;
+    case INTERN:
+    {
+        Employee *internEmployee = new Intern(3, "Bob Johnson", "2000-07-10", "555-555-5555", "bob.johnson@email.com", "Computer Science", "Spring 2023", "University B");
+        empManager.AddEmployee(internEmployee);
+    }
+    break;
+    default:
+        break;
+    }
+}
+void Application::ModifyEmployee()
+{
+    int employeeType;
+    cout << "Select staff type (1 - Experience, 2 - Fresher, 3 - Intern): ";
+    cin >> employeeType;
+    cout << "\nSelect employee ID : ";
+    int id;
+    cin >> id;
+    switch (static_cast<EmployeeTypeChoice>(employeeType))
+    {
+    case EXPERIENCE:
+    {
+        Experience *expEmployee = new Experience();
+        empManager.EditEmployee(id, expEmployee);
+    }
+    break;
+    case FRESHER:
+    {
+        Fresher *fresherEmployee = new Fresher(2, "Alice Smith", "1995-03-20", "987-654-3210", "alice.smith@email.com", "2022-06-01", "Honors", "University A");
+        empManager.EditEmployee(id, fresherEmployee);
+    }
+    break;
+    case INTERN:
+    {
+        Intern *internEmployee = new Intern(3, "Bob Johnson", "2000-07-10", "555-555-5555", "bob.johnson@email.com", "Computer Science", "Spring 2023", "University B");
+        empManager.EditEmployee(id, internEmployee);
+    }
+    break;
+    default:
+        break;
+    }
+}
+void Application::DeleteEmployee(){
+     cout << "Select employee ID to delete : ";
+    int id;
+    cin >> id;
+    empManager.DeleteEmployee(id);
+}
+void Application::ShowAllEmployees() {
+    empManager.ShowAllEmployees();
+}
 void Application::Run()
 {
     while (true)
@@ -54,112 +152,30 @@ void Application::Run()
         case ADD_NEW_EMPLOYEE:
             // Thêm nhân viên
             {
-            int employeeType;
-            cout << "Select staff type (1 - Experience, 2 - Fresher, 3 - Intern): ";
-            cin >> employeeType;
-            switch (static_cast<EmployeeTypeChoice>(employeeType))
-            {
-            case EXPERIENCE:
-            {
-                Employee *expEmployee = new Experience(1, "John Doe", "1990-01-15", "123-456-7890", "john.doe@email.com", 5);
-                cout<<"Enter employee id : \n";
-                int id;
-                cin >> id;
-                expEmployee->SetEmployeesID(id);
-                cout<<"Enter employee name : \n";
-                string name;
-                cin>>name;
-                expEmployee->SetFullName(name);
-                cout<<"Enter employee birth date : \n";
-                string birthDate;
-                cin>>birthDate;
-                expEmployee->SetBirthDate(birthDate);
-                cout<<"Enter employee phone : \n";
-                string phone;
-                cin>>phone;
-                expEmployee->SetPhone(phone);
-                cout<<"Enter employee email : \n";
-                string email;
-                cin>>email;
-                expEmployee->SetEmail(email);
-                cout<<"Enter employee experience : \n";
-                int experience;
-                cin>>experience;
-                dynamic_cast<Experience*>(expEmployee)->SetExpYears(experience);
-
-                empManager.AddEmployee(expEmployee);
-            }
-                break;
-            case FRESHER:
-            {
-                Employee *fresherEmployee = new Fresher(2, "Alice Smith", "1995-03-20", "987-654-3210", "alice.smith@email.com", "2022-06-01", "Honors", "University A");
-                empManager.AddEmployee(fresherEmployee);
-            }
-                break;
-            case INTERN:
-            {
-                Employee *internEmployee = new Intern(3, "Bob Johnson", "2000-07-10", "555-555-5555", "bob.johnson@email.com", "Computer Science", "Spring 2023", "University B");
-                empManager.AddEmployee(internEmployee);
-            }
-                break;
-            default:
-                break;
-            }
+                AddEmployee();
             }
             break;
 
         case EDIT_EMPLOYEE:
-            // Sửa thông tin nhân viên   
-        {
-            int employeeType;
-            cout << "Select staff type (1 - Experience, 2 - Fresher, 3 - Intern): ";
-            cin >> employeeType;
-            cout<< "\nSelect employee ID : ";
-            int id;
-            cin >> id;
-            switch (static_cast<EmployeeTypeChoice>(employeeType))
+            // Sửa thông tin nhân viên
             {
-            case EXPERIENCE:
-            {
-                Experience *expEmployee = new Experience();
-                empManager.EditEmployee(id,expEmployee);
+                ModifyEmployee();
             }
-                break;
-            case FRESHER:
-            {
-                Fresher *fresherEmployee = new Fresher(2, "Alice Smith", "1995-03-20", "987-654-3210", "alice.smith@email.com", "2022-06-01", "Honors", "University A");
-                empManager.EditEmployee(id,fresherEmployee);
-            }
-                break;
-            case INTERN:
-            {
-                Intern *internEmployee = new Intern(3, "Bob Johnson", "2000-07-10", "555-555-5555", "bob.johnson@email.com", "Computer Science", "Spring 2023", "University B");
-                empManager.EditEmployee(id,internEmployee);
-            }
-                break;
-            default:
-                break;
-            }
-        }
-        
+
             break;
 
         case DELETE_EMPLOYEE:
             // Xóa nhân viên
-            cout << "Select employee ID to delete : ";
-            int id;
-            cin >> id;
-            empManager.DeleteEmployee(id);
+            DeleteEmployee();
             break;
 
         case SHOW_ALL_EMPLOYEE:
             // Hiển thị danh sách nhân viên
-            empManager.ShowAllEmployees();
+            ShowAllEmployees();
             break;
 
         case EXIT:
             // Thoát khỏi chương trình
-            break;
             return;
 
         default:
