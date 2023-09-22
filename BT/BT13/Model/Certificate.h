@@ -22,6 +22,11 @@ public:
     std::string GetCertificateName() const { return certName; }
     std::string GetCertificateRank() const { return certRank; }
     std::string GetCertificateDate() const { return certDate; }
+
+    void SetCertID(int _id) { certID = _id; }
+    void SetCertName(std::string _certName){ certName = _certName; }
+    void SetCertRank(int _certRank) { certRank =_certRank; }
+    void SetCertDate(std::string _certDate) { certDate =_certDate; }
 private:
     int certID;
     std::string certName;
