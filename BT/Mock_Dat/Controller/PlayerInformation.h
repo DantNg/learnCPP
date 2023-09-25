@@ -4,18 +4,18 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <algorithm>
 #include "../Model/Player.h"
 #include "../config.h"
 #define ERROR_CANNOT_READ_FILE "Can't read the file"
 class PlayerInformation
 {
 private:
-    std::vector<Player> loadplayer;
     std::vector<Player> readplayer;
 
 public:
     std::vector<Player> getPlayers() const { return readplayer; }
-    //Trả về thông tin 1 player đã tồn tại theo tên
+    // Trả về thông tin 1 player đã tồn tại theo tên
     Player getPlayerWithName(const std::string name) const
     {
         for (const Player &player : readplayer)
@@ -30,7 +30,18 @@ public:
     // Thêm một người chơi vào danh sách
     void addPlayer(const Player &player)
     {
-        loadplayer.push_back(player);
+        readplayer.push_back(player);
+    }
+    void modifyPlayer(Player &_player)
+    {
+        for (Player &player : readplayer)
+        {
+            if (player.getName() == _player.getName())
+            {
+                player = _player; // copy player
+                break;
+            }
+        }
     }
     // Kiểm tra tên người chơi đã tồn tại hay chưa
     bool checkPlayerExist(std::string name)
@@ -45,20 +56,41 @@ public:
         }
         return false;
     }
+
+    // Hàm so sánh tùy chỉnh cho std::sort
+    bool compareByScore(const Player &player1, const Player &player2)
+    {
+        return player1.getScore() > player2.getScore(); // Sắp xếp từ lớn đến bé
+    }
+    void sortPlayers()
+    {
+        std::sort(readplayer.begin(), readplayer.end(), [](const Player &player1, const Player &player2)
+                  {
+                      return player1.getScore() > player2.getScore(); // Sắp xếp từ lớn đến bé
+                  });
+    }
     // Lưu thông tin của tất cả người chơi vào file
     void saveToFile(const std::string &filename)
     {
+        sortPlayers();
         std::ofstream file(filename);
         if (file.is_open())
         {
-            for (const Player &player : loadplayer)
+            int num_of_players = readplayer.size();
+            int i = 0;
+            for (Player &player : readplayer)
             {
+
+                player.setRank(num_of_players - i);
                 file << player.getName() << "," << player.getRank() << ","
                      << player.getWinCount() << "," << player.getLoseCount() << ","
-                     << player.getDrawCount() << std::endl;
+                     << player.getDrawCount() <<","<<player.getScore()<< std::endl;
+                i++;
             }
             file.close();
         }
+        else
+            throw "Error when saving to file " + filename;
     }
 
     // Đọc thông tin người chơi từ file và thêm vào danh sách
@@ -72,7 +104,7 @@ public:
             {
                 std::istringstream iss(line);
                 std::string name;
-                int rank, win_count, lose_count, draw_count;
+                int rank, win_count, lose_count, draw_count, score_count;
                 if (std::getline(iss, name, ',') &&
                     iss >> rank &&
                     iss.ignore(1) && // Bỏ qua ký tự ','
@@ -80,9 +112,11 @@ public:
                     iss.ignore(1) && // Bỏ qua ký tự ','
                     iss >> lose_count &&
                     iss.ignore(1) && // Bỏ qua ký tự ','
-                    iss >> draw_count)
+                    iss >> draw_count &&
+                    iss.ignore(1) && // Bỏ qua ký tự ','
+                    iss >> score_count)
                 {
-                    Player player(name, rank, win_count, lose_count, draw_count);
+                    Player player(name, rank, win_count, lose_count, draw_count, score_count);
                     readplayer.push_back(player);
                 }
                 else
@@ -94,11 +128,14 @@ public:
             file.close();
         }
     }
+    void clearReadPlayers()
+    {
+        readplayer.clear();
+    }
 
     // Xóa tất cả thông tin người chơi trong danh sách và file
     void clearAll()
     {
-        loadplayer.clear();
         readplayer.clear();
         std::remove(PLAYER_INFORMATION_PATH); // Xóa file
     }

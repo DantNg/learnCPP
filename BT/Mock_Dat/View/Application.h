@@ -41,50 +41,23 @@ public:
     }
     void playNewGame()
     {
-        string player_1_name, player_2_name;
         Player player_1;
-        Player player_2;
-        cout << "------------------------ Create player --------------------------------\n\n";
-        while (true)
-        {
-            cout << "Enter player 1 name : " << endl;
-            cin >> player_1_name;
-            if (playerInfor.checkPlayerExist(player_1_name))
-            {
-                cout << "Player 1 already exists, do you want to continue with the account? (y/n)" << endl;
-                char choose;
-                cin >> choose;
-                if (choose == 'y')
-                {
-                    player_1 = playerInfor.getPlayerWithName(player_1_name);
-                    break;
-                }
-            }
-            else
-                break;
-        };
-        // cout<<"Player 1 : " <<player_1.getRank()<<" "<<player_1.getName()<<" "<<player_1.getWinCount()<<endl;
-        while (true)
-        {
-            cout << "Enter player 2 name : " << endl;
-            cin >> player_2_name;
-            if (playerInfor.checkPlayerExist(player_2_name))
-            {
-                cout << "Player 2 already exists, do you want to continue with the account? (y/n)" << endl;
-                char choose;
-                cin >> choose;
-                if (choose == 'y')
-                {
-                    player_2 = playerInfor.getPlayerWithName(player_2_name);
-                    break;
-                }
-            }
-            else
-                break;
-        }; 
-        
-        GameMonitor gameMonitor(player_1_name, player_2_name);
+        Player player_2; 
+        GameMonitor gameMonitor(player_1, player_2);
+        gameMonitor.setupGame();
         gameMonitor.startGame();
+        // gameMonitor.updateGameScore(player_1, player_2);
+        // cout<<"Player 1 "<<player_1.getName()<<" "<<player_1.getWinCount() <<" "<<player_1.getLoseCount() <<" "<<endl;
+        // playerInfor.modifyPlayer(player_1);
+        // cout<<"Player 1 "<<player_1.getName()<<" "<<player_1.getWinCount() <<" "<<player_1.getLoseCount() <<" "<<endl;
+        // playerInfor.modifyPlayer(player_2);
+        // try{
+        //     playerInfor.saveToFile(PLAYER_INFORMATION_PATH);
+        // }
+        // catch(const char *error)
+        // {
+        //     cout<<"Error : "<<error<<endl;
+        // }
     }
     void showRankBoard()
     {

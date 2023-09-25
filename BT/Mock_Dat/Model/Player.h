@@ -3,12 +3,13 @@
 #include "../config.h"
 class Player {
 public:
-    Player(const std::string& playerName="",int _rank=0,int _win_count=0,int _lose_count=0,int _draw_count = 0) {
+    Player(const std::string& playerName="",int _rank=0,int _win_count=0,int _lose_count=0,int _draw_count = 0,int _score =0) {
         name = playerName;
         rank = _rank;
         win_count = _win_count;
         lose_count = _lose_count;
         draw_count = _draw_count;
+        score = _score;
     }
     Player& operator=(const Player& _player) {
         name = _player.getName();
@@ -73,7 +74,7 @@ public:
     }
 
     // Phương thức setter cho score
-    void setDrawCount(int _score) {
+    void setScore(int _score) {
         score = _score;
     }
 private:

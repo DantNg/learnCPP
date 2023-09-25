@@ -3,12 +3,15 @@
 #include "../config.h"
 #include "../Model/CaroBoard.h"
 #include "../Model/Player.h"
-#include"../Controller/PlayerInformation.h"
+#include "../Controller/PlayerInformation.h"
 #define PLAYER_1_INDEX 0
 #define PLAYER_2_INDEX 1
 #define LOSE 0
 #define DRAW 1
 #define WIN 2
+#define LOSE_FACTOR -1
+#define WIN_FACTOR 3
+#define DRAW_FACTOR 1
 class GameController
 {
 public:
@@ -16,8 +19,7 @@ public:
     {
         current_player_turn = 0;
         intitializeChessBoard();
-        initializePlayers(Player(),Player());
-
+        initializePlayers(Player(), Player());
     }
     GameController(const Player &_player_1, const Player &_player_2)
     {
@@ -25,9 +27,9 @@ public:
         intitializeChessBoard();
         initializePlayers(_player_1, _player_2);
     }
-    void initializePlayers(const Player &_player_1,const Player &_player_2)
+    void initializePlayers(const Player &_player_1, const Player &_player_2)
     {
-        //Copy 2 object
+        // Copy 2 object
         player_1 = _player_1;
         player_2 = _player_2;
     }
@@ -56,15 +58,17 @@ public:
     }
     bool setChessBoardCell(int _row, int _col)
     {
-        if (!current_player_turn) // đang là lượt chơi của player 1 
+        if (!current_player_turn) // đang là lượt chơi của player 1
         {
-            if(getChessBoardCell(_row, _col) != NON_PLAYER_SIGN) return false; //Kiểm tra ô đó đã điền hay chưa
+            if (getChessBoardCell(_row, _col) != NON_PLAYER_SIGN)
+                return false; // Kiểm tra ô đó đã điền hay chưa
             chessboard.setCell(_row, _col, PLAYER_1_SIGN);
             return true;
         }
-        else //Đang là lượt chơi player 2
+        else // Đang là lượt chơi player 2
         {
-            if(getChessBoardCell(_row, _col) != NON_PLAYER_SIGN) return false; 
+            if (getChessBoardCell(_row, _col) != NON_PLAYER_SIGN)
+                return false;
             chessboard.setCell(_row, _col, PLAYER_2_SIGN);
             return true;
         }
@@ -195,7 +199,7 @@ public:
             }
             h = row - 1;
             k = col + 1;
-            if (row > 0 && col < DEFAULT_CHESSBOARD_DIMENSION-1)
+            if (row > 0 && col < DEFAULT_CHESSBOARD_DIMENSION - 1)
             {
                 while (getChessBoardCell(h, k) == getChessBoardCell(row, col))
                 {
@@ -217,11 +221,38 @@ public:
         // nếu không đương chéo nào thỏa mãn thì trả về false.
         return false;
     }
+    void updateScore(Player &_player_1, Player &_player_2)
+    {
+        int score_1, score_2;
+        switch (result)
+        {
+        case LOSE:
+            _player_1.setLoseCount(_player_1.getLoseCount() + 1);
+            _player_2.setWinCount(_player_2.getWinCount() + 1);
+            break;
+        case DRAW:
+            _player_1.setDrawCount(_player_1.getDrawCount() + 1);
+            _player_2.setDrawCount(_player_2.getDrawCount() + 1);
+            break;
+        case WIN:
+            _player_1.setWinCount(_player_1.getWinCount() + 1);
+            _player_2.setLoseCount(_player_2.getLoseCount() + 1);
+            break;
+        default:
+            break;
+        };
+        score_1 = _player_1.getWinCount() * WIN_FACTOR + _player_1.getDrawCount() * DRAW_FACTOR + _player_1.getLoseCount() * LOSE_FACTOR;
+        score_2 = _player_2.getWinCount() * WIN_FACTOR + _player_2.getDrawCount() * DRAW_FACTOR + _player_2.getLoseCount() * LOSE_FACTOR;
+        _player_1.setScore(score_1);
+        _player_2.setScore(score_2);
+        // _player_1 = player_1;
+        // _player_2 = player_2;
+        
+    }
 
 private:
     Player player_1, player_2;
     Caroboard chessboard;
     bool current_player_turn;
     int result;
-
 };
