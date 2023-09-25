@@ -10,7 +10,13 @@ public:
         lose_count = _lose_count;
         draw_count = _draw_count;
     }
-
+    Player& operator=(const Player& _player) {
+        name = _player.getName();
+        rank = _player.getRank();
+        win_count = _player.getWinCount();
+        lose_count = _player.getLoseCount();
+        draw_count = _player.getDrawCount();
+    };
     // Phương thức getter cho name
     std::string getName() const {
         return name;
@@ -61,10 +67,20 @@ public:
         draw_count = count;
     }
 
+     // Phương thức getter score
+    int getScore() const {
+        return score;
+    }
+
+    // Phương thức setter cho score
+    void setDrawCount(int _score) {
+        score = _score;
+    }
 private:
     std::string name;
     int rank;
     int win_count;
     int lose_count;
     int draw_count;
+    int score;
 };

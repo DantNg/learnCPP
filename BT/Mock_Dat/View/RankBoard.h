@@ -6,16 +6,33 @@ using namespace std;
 class Rankboard
 {
 public:
-    Rankboard(){};
+    Rankboard()
+    {
+        try
+        {
+            playerInfor.loadFromFile(PLAYER_INFORMATION_PATH);
+        }
+        catch (const char *error)
+        {
+            cout << "Error: " << error << endl;
+        }
+    };
     void show()
     {
         cout << "\n\n\t\t RANKBOARD\n\n";
-        playerInfor.loadFromFile(PLAYER_INFORMATION_PATH);
+        try
+        {
+            playerInfor.loadFromFile(PLAYER_INFORMATION_PATH);
+        }
+        catch (const char *error)
+        {
+            cout << "Error: " << error << endl;
+        }
         for (const Player &player : playerInfor.getPlayers())
         {
-            std::cout<< "Rank: " << player.getRank() << " , Name: " << player.getName()  << ", Wins: " << player.getWinCount() << ", Loses: " << player.getLoseCount() << ", Draws: " << player.getDrawCount() << std::endl;
+            std::cout << "Rank: " << player.getRank() << " , Name: " << player.getName() << ", Wins: " << player.getWinCount() << ", Loses: " << player.getLoseCount() << ", Draws: " << player.getDrawCount() << std::endl;
         }
-        cout<<"--------------------------------------------------------\n\n";
+        cout << "--------------------------------------------------------\n\n";
     }
 
 private:

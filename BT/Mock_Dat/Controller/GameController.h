@@ -3,7 +3,12 @@
 #include "../config.h"
 #include "../Model/CaroBoard.h"
 #include "../Model/Player.h"
-
+#include"../Controller/PlayerInformation.h"
+#define PLAYER_1_INDEX 0
+#define PLAYER_2_INDEX 1
+#define LOSE 0
+#define DRAW 1
+#define WIN 2
 class GameController
 {
 public:
@@ -11,18 +16,20 @@ public:
     {
         current_player_turn = 0;
         intitializeChessBoard();
-        initializePlayers();
+        initializePlayers(Player(),Player());
+
     }
-    GameController(std::string name_player_1, std::string name_player_2)
+    GameController(const Player &_player_1, const Player &_player_2)
     {
         current_player_turn = 0;
         intitializeChessBoard();
-        initializePlayers(name_player_1, name_player_2);
+        initializePlayers(_player_1, _player_2);
     }
-    void initializePlayers(std::string name_1 = DEFAULT_PLAYER_1_NAME, std::string name_2 = DEFAULT_PLAYER_2_NAME)
+    void initializePlayers(const Player &_player_1,const Player &_player_2)
     {
-        player_1.setName(name_1);
-        player_2.setName(name_2);
+        //Copy 2 object
+        player_1 = _player_1;
+        player_2 = _player_2;
     }
     // Khởi tạo bàn cờ
     void intitializeChessBoard()
@@ -35,13 +42,13 @@ public:
             }
         }
     }
-    std::string get_player_name(bool _cur_player) { return _cur_player == 0 ? player_1.getName() : player_2.getName(); }
-    void setPlayerName(bool _cur_player, std::string name)
+    std::string getPlayerName(bool _cur_player) { return _cur_player == 0 ? player_1.getName() : player_2.getName(); }
+    void setPlayer(bool _cur_player, Player _player)
     {
-        if (_cur_player == 0)
-            player_1.setName(name);
+        if (_cur_player == PLAYER_1_INDEX)
+            player_1 = _player;
         else
-            player_2.setName(name);
+            player_2 = _player;
     }
     char getChessBoardCell(int _row, int _col)
     {
@@ -64,6 +71,8 @@ public:
     }
     bool getPlayerTurn() { return current_player_turn; }
     void setPlayerTurn(bool _turn) { current_player_turn = _turn; }
+    int getResult() { return result; }
+    void setResult(int _result) { result = _result; }
     // Kiểm tra người thắng
     bool checkWinner(int row, int col)
     {
@@ -213,4 +222,6 @@ private:
     Player player_1, player_2;
     Caroboard chessboard;
     bool current_player_turn;
+    int result;
+
 };

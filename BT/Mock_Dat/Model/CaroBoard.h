@@ -1,14 +1,8 @@
 #pragma once
 #include <exception>
 #include "../config.h"
+#define ERROR_INVALID_ACCESS_ELEMENT_OUT_OF_RANGE "Invalid access element out of range of caro board"
 
-class CaroboardException : public std::exception
-{
-    const char *what() const throw()
-    {
-        return "Invalid position in Caroboard access!";
-    }
-};
 class Caroboard
 {
 public:
@@ -22,7 +16,7 @@ public:
             chessboard[i] = new char[boardSize];
             for (int j = 0; j < boardSize; j++)
             {
-                chessboard[i][j] = ' ';
+                chessboard[i][j] = NON_PLAYER_SIGN;
             }
         }
     }
@@ -47,7 +41,7 @@ public:
         else
         {
             // Xử lý lỗi hoặc trả về một giá trị mặc định
-            throw CaroboardException();
+            throw ERROR_INVALID_ACCESS_ELEMENT_OUT_OF_RANGE;
             // return DEFAULT_RETURN_NOT_VALID_ACCESS;
         }
     }
@@ -62,7 +56,7 @@ public:
         else
         {
             // Xử lý lỗi nếu vị trí không hợp lệ
-            throw CaroboardException();
+            throw ERROR_INVALID_ACCESS_ELEMENT_OUT_OF_RANGE;
         }
     }
 
