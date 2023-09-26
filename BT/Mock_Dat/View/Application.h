@@ -2,6 +2,7 @@
 #include <iostream>
 #include "GameMonitor.h"
 #include "RankBoard.h"
+#include "ReplayGame.h"
 #include "../config.h"
 using namespace std;
 class Application
@@ -9,20 +10,8 @@ class Application
 public:
     Application()
     {
-        cout << "\n\n\t\t Loading players information\n\n";
-        try
-        {
-            playerInfor.loadFromFile(PLAYER_INFORMATION_PATH);
-        }
-        catch (const char *error)
-        {
-            cout << "Error: " << error << endl;
-        }
-        for (const Player &player : playerInfor.getPlayers())
-        {
-            std::cout << "Rank: " << player.getRank() << " , Name: " << player.getName() << ", Wins: " << player.getWinCount() << ", Loses: " << player.getLoseCount() << ", Draws: " << player.getDrawCount() << std::endl;
-        }
-        cout << "--------------------------------------------------------\n\n";
+        cout<<"--------------------------------- CARO GAME -----------------------------------\n\n"<<endl;
+       
     };
     void menu()
     {
@@ -46,23 +35,16 @@ public:
         GameMonitor gameMonitor(player_1, player_2);
         gameMonitor.setupGame();
         gameMonitor.startGame();
-        // gameMonitor.updateGameScore(player_1, player_2);
-        // cout<<"Player 1 "<<player_1.getName()<<" "<<player_1.getWinCount() <<" "<<player_1.getLoseCount() <<" "<<endl;
-        // playerInfor.modifyPlayer(player_1);
-        // cout<<"Player 1 "<<player_1.getName()<<" "<<player_1.getWinCount() <<" "<<player_1.getLoseCount() <<" "<<endl;
-        // playerInfor.modifyPlayer(player_2);
-        // try{
-        //     playerInfor.saveToFile(PLAYER_INFORMATION_PATH);
-        // }
-        // catch(const char *error)
-        // {
-        //     cout<<"Error : "<<error<<endl;
-        // }
     }
     void showRankBoard()
     {
         Rankboard rankboard;
         rankboard.show();
+    }
+    void replayGame()
+    {
+        ReplayMonitor replaymonitor;
+        replaymonitor.startReplay();
     }
     void run()
     {
@@ -78,6 +60,7 @@ public:
                 break;
                 // View replay game
             case REPLAY_GAME:
+                replayGame();
                 break;
                 // Show rank board
             case RANK_BOARD:
@@ -94,7 +77,6 @@ public:
 
 private:
     int choice;
-    PlayerInformation playerInfor;
     enum Menu
     {
         PLAY_NEW_GAME = 1,

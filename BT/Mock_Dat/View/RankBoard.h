@@ -23,7 +23,7 @@ public:
         cout << "\n\n\t\t -- RANKBOARD --\n\n";
         for (const Player &player : playerInfor.getPlayers())
         {
-            std::cout << "Rank: " << player.getRank() << " , Name: " << player.getName() << ", Wins: " << player.getWinCount() << ", Loses: " << player.getLoseCount() << ", Draws: " << player.getDrawCount() << std::endl;
+            std::cout << "Rank: " << player.getRank() << " , Name: " << player.getName() << ", Wins: " << player.getWinCount() << ", Loses: " << player.getLoseCount() << ", Draws: " << player.getDrawCount()<<" , Score: "<<player.getScore() << std::endl;
         }
         cout << "--------------------------------------------------------\n\n";
         // playerInfor.clearReadPlayers();

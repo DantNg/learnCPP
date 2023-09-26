@@ -17,6 +17,7 @@ public:
         win_count = _player.getWinCount();
         lose_count = _player.getLoseCount();
         draw_count = _player.getDrawCount();
+        score = _player.getScore();
     };
     // Phương thức getter cho name
     std::string getName() const {

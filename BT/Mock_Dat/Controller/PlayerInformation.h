@@ -57,11 +57,6 @@ public:
         return false;
     }
 
-    // Hàm so sánh tùy chỉnh cho std::sort
-    bool compareByScore(const Player &player1, const Player &player2)
-    {
-        return player1.getScore() > player2.getScore(); // Sắp xếp từ lớn đến bé
-    }
     void sortPlayers()
     {
         std::sort(readplayer.begin(), readplayer.end(), [](const Player &player1, const Player &player2)
@@ -76,12 +71,11 @@ public:
         std::ofstream file(filename);
         if (file.is_open())
         {
-            int num_of_players = readplayer.size();
-            int i = 0;
+            int i = 1;
             for (Player &player : readplayer)
             {
-
-                player.setRank(num_of_players - i);
+                // std::cout << "Rank: " << player.getRank() << " , Name: " << player.getName() << ", Wins: " << player.getWinCount() << ", Loses: " << player.getLoseCount() << ", Draws: " << player.getDrawCount()<<" , Score: "<<player.getScore() << std::endl;
+                player.setRank(i);
                 file << player.getName() << "," << player.getRank() << ","
                      << player.getWinCount() << "," << player.getLoseCount() << ","
                      << player.getDrawCount() <<","<<player.getScore()<< std::endl;

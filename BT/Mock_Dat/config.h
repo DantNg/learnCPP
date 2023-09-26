@@ -12,3 +12,5 @@
 #define DEFAULT_WIN_CONDITION 4
 //-------------------- PLAYER INFORMATION --------------
 #define PLAYER_INFORMATION_PATH "file/player_info.txt"
+#define GAME_RECORD_FOLDER "file//log//"
+#define LOG_RECORD_PATH "file/log/%Y_%m_%d_%H_%M.txt"

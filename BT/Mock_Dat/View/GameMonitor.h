@@ -3,6 +3,7 @@
 #include <conio.h>
 #include "../Controller/GameController.h"
 #include "../Controller/PlayerInformation.h"
+#include "../Controller/PlayLogger.h"
 using namespace std;
 
 class GameMonitor
@@ -43,7 +44,8 @@ public:
 
         while (true)
         {
-            if (gameController.getPlayerTurn())
+            bool turn = gameController.getPlayerTurn(); // set player turn
+            if (turn)
             {
                 cout << " Player 2 Turn : ";
             }
@@ -59,6 +61,8 @@ public:
                 {
                     // count number of step players
                     count_step++;
+                    // log move
+                    playLogger.logMove(turn ? player_1.getName() : player_2.getName(), player_row_selected, player_col_selected);
                     break;
                 }
                 else
@@ -105,6 +109,12 @@ public:
         {
             cout << "Enter player 2 name : " << endl;
             cin >> player_2_name;
+            if (player_2_name == player_1_name)
+            {
+                cout << "It's the name of the player 1 , please choose another name!\n"
+                     << endl;
+                continue;
+            }
             if (playerInfor.checkPlayerExist(player_2_name))
             {
                 cout << "Player 2 already exists, do you want to continue with the account? (y/n)" << endl;
@@ -123,7 +133,7 @@ public:
                 break;
             }
         };
-         cout << " setup Player 1 " << player_1.getName() << " " << player_1.getWinCount() << " " << player_1.getLoseCount() << " " << endl;
+        cout << " setup Player 1 " << player_1.getName() << " " << player_1.getWinCount() << " " << player_1.getLoseCount() << " " << endl;
     }
 
     void startGame()
@@ -158,12 +168,15 @@ public:
             cout << "Player 1 draw Player 2!" << endl;
             gameController.setResult(DRAW);
         }
-
+        // save game logger
+        playLogger.saveToFile();
         gameController.updateScore(player_1, player_2);
+        // cout << "Player 1 -" << player_1.getName() << " " << player_1.getWinCount() << " " << player_1.getLoseCount() << "  Score "<<player_1.getScore() << endl;
+        // cout << "Player 2 - " << player_2.getName() << " " << player_2.getWinCount() << " " << player_2.getLoseCount() << " Score "<<player_2.getScore() << endl;
         playerInfor.modifyPlayer(player_1);
         playerInfor.modifyPlayer(player_2);
-        cout << "Player 1 -" << player_1.getName() << " " << player_1.getWinCount() << " " << player_1.getLoseCount() << " " << endl;
-        cout << "Player 2 - " << player_2.getName() << " " << player_2.getWinCount() << " " << player_2.getLoseCount() << " " << endl;
+        // cout << "Player 1 -" << player_1.getName() << " " << player_1.getWinCount() << " " << player_1.getLoseCount() << "  Score "<<player_1.getScore() << endl;
+        // cout << "Player 2 - " << player_2.getName() << " " << player_2.getWinCount() << " " << player_2.getLoseCount() << " Score "<<player_2.getScore() << endl;
         try
         {
             playerInfor.saveToFile(PLAYER_INFORMATION_PATH);
@@ -174,10 +187,10 @@ public:
         }
     }
 
-
 private:
     GameController gameController;
     PlayerInformation playerInfor;
+    PlayLogger playLogger;
     Player player_1;
     Player player_2;
     int gameState;
